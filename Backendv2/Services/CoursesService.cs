@@ -27,7 +27,7 @@ namespace Backendv2.Services
                             Description = reader["CourseDescription"].ToString(),
                         });
                     }
-                }
+                }  
             }
 
             return courses;
