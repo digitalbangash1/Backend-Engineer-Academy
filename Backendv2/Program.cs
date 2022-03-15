@@ -12,6 +12,7 @@ builder.Services.AddCors();
 
 //Register my own services
 builder.Services.AddScoped<ICoursesService, CoursesService>();
+builder.Services.AddScoped<IArticleSerivce,ArticlesServices>();
 
 var app = builder.Build();
 
