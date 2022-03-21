@@ -13,6 +13,7 @@ builder.Services.AddCors();
 //Register my own services
 builder.Services.AddScoped<ICoursesService, CoursesService>();
 builder.Services.AddScoped<IArticleSerivce,ArticlesServices>();
+builder.Services.AddScoped<IDbConnectionService, DbConnectionService>();
 
 var app = builder.Build();
 

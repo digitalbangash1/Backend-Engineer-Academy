@@ -15,10 +15,23 @@ namespace Backendv2.Controllers
             this.coursesService = coursesService;
         }
 
-        [HttpGet]
-        public IList<CourseModel> GetCourses()
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            return coursesService.GetCourses();
+            return Ok(coursesService.GetById(id));
+        }
+
+        [HttpGet]
+        public IActionResult GetCourses()
+        {
+            return Ok(coursesService.GetCourses());
+        }
+
+        [HttpPost]
+        public IActionResult CreateCourses(CreateCourseModel model)
+        {
+            coursesService.CreateCourse(model.Name, model.Description);
+            return Ok();
         }
     }
 }

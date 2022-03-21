@@ -1,36 +1,96 @@
 ﻿using Backendv2.Models.Courses;
-using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace Backendv2.Services
 {
     public class CoursesService : ICoursesService
     {
-        public IList<CourseModel> GetCourses()
+        private readonly IDbConnectionService dbConnectionService;
+
+        public CoursesService(IDbConnectionService dbConnectionService)
         {
-            //TODO connec to mysql or any database
-            var courses = new List<CourseModel>();
-            //TODO conn string must be outside of code
-            var connectionString = "server=localhost;port=3306;database=backend;user=root;password=12345";
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            this.dbConnectionService = dbConnectionService;
+        }
+
+        public void CreateCourse(string name, string description)
+        {
+            using(var conn = dbConnectionService.Create())
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("select * from courses", conn);
+                var cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO courses (courseName, courseDescription) VALUES (@name, @description)";
+
+                var nameParam = cmd.CreateParameter();
+                nameParam.ParameterName = "@name";
+                nameParam.Value = name;
+                cmd.Parameters.Add(nameParam);
+
+                var descriptionParam = cmd.CreateParameter();
+                descriptionParam.ParameterName = "@description";
+                descriptionParam.Value = description;
+                cmd.Parameters.Add(descriptionParam);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public CourseModel GetById(int id)
+        {
+            using (var conn = dbConnectionService.Create())
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "select * from courses where coursesID=@courseId";
+
+                var idParam = cmd.CreateParameter();
+                idParam.ParameterName = "@courseId";
+                idParam.Value = id;
+                cmd.Parameters.Add(idParam);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return GetCourse(reader);
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        public IList<CourseModel> GetCourses()
+        {
+            var courses = new List<CourseModel>();
+            using (var conn = dbConnectionService.Create())
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "select * from courses";
 
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        courses.Add(new CourseModel()
-                        {
-                            Id = Convert.ToInt32(reader["coursesID"]),
-                            Name = reader["CourseName"].ToString(),
-                            Description = reader["CourseDescription"].ToString(),
-                        });
+                        courses.Add(GetCourse(reader));
                     }
                 }  
             }
 
             return courses;
+        }
+
+        private CourseModel GetCourse(IDataReader reader)
+        {
+            return new CourseModel()
+            {
+                Id = Convert.ToInt32(reader["coursesID"]),
+                Name = reader["CourseName"].ToString(),
+                Description = reader["CourseDescription"].ToString(),
+            };
         }
     }
 }
