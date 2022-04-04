@@ -35,6 +35,34 @@ namespace Backendv2.Services
             }
         }
 
+        public void UpdateCourse(int id, string name, string description)
+        {
+            using (var conn = dbConnectionService.Create())
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE courses SET courseName=@name, courseDescription=@description WHERE coursesID=@id";
+
+                var idParam = cmd.CreateParameter();
+                idParam.ParameterName = "@id";
+                idParam.Value = id;
+                cmd.Parameters.Add(idParam);
+
+                var nameParam = cmd.CreateParameter();
+                nameParam.ParameterName = "@name";
+                nameParam.Value = name;
+                cmd.Parameters.Add(nameParam);
+
+                var descriptionParam = cmd.CreateParameter();
+                descriptionParam.ParameterName = "@description";
+                descriptionParam.Value = description;
+                cmd.Parameters.Add(descriptionParam);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public CourseModel GetById(int id)
         {
             using (var conn = dbConnectionService.Create())

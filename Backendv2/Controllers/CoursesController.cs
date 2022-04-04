@@ -28,9 +28,16 @@ namespace Backendv2.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCourses(CreateCourseModel model)
+        public IActionResult CreateCourse(CreateCourseModel model)
         {
             coursesService.CreateCourse(model.Name, model.Description);
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateCourse(int id, UpdateCourseModel model)
+        {
+            coursesService.UpdateCourse(id, model.Name, model.Description);
             return Ok();
         }
     }
