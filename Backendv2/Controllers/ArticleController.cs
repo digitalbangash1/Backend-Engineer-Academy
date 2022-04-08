@@ -11,7 +11,7 @@ namespace Backendv2.Controllers
 
         private readonly IArticleSerivce articleService;
 
-        public ArticleController (IArticleSerivce articleService)
+        public ArticleController(IArticleSerivce articleService)
         {
             this.articleService = articleService;
         }
