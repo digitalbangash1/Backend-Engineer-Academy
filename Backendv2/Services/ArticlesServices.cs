@@ -1,35 +1,51 @@
 ﻿using Backendv2.Models.Articles;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace Backendv2.Services
 {
     public class ArticlesServices : IArticleSerivce
+
     {
+        private readonly IDbConnectionService dbConnectionService;
+
+        public ArticlesServices(IDbConnectionService dbConnectionService)
+        {
+            this.dbConnectionService = dbConnectionService;
+        }
+
         public IList<ArticleModel> GetArticles()
         {
-            var articles = new List<ArticleModel>();
-            var connectionString = "server=localhost;port=3306;database=backend;user=root;password=12345";
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            var article = new List<ArticleModel>();
+            using (var conn = dbConnectionService.Create())
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from article inner join courses on courses.coursesID = article.coursesID", conn);
+                var cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "select * from article";
+
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        articles.Add(new ArticleModel()
-                            {
-                            Id = Convert.ToInt32(reader["id"]),
-                            courseId = Convert.ToInt32(reader["coursesID"]),
-                            Description = reader["articleDes"].ToString(),
-
-
-
-                        });
+                        article.Add(GetArticles(reader));
                     }
                 }
             }
-           return articles;
+
+            return article;
+        }
+
+        private ArticleModel GetArticles(IDataReader reader)
+        {
+            return new ArticleModel()
+            {
+                Id = Convert.ToInt32(reader["ID"]),
+                courseId = Convert.ToInt32(reader["coursesID"]),
+                Title = reader["articleTitle"].ToString(),
+                Description = reader["articleDes"].ToString(),
+                Link = reader["articlelink"].ToString(),
+            };
         }
     }
 }
