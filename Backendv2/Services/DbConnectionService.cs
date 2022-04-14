@@ -16,5 +16,11 @@ namespace Backendv2.Services
             return new MySqlConnection(connectionString);
 
         }
+
+        public IDbConnection Delete()
+        {
+            return new MySqlConnection(connectionString);
+
+        }
     }
 }

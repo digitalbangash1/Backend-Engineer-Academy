@@ -5,5 +5,6 @@ namespace Backendv2.Services
     public interface IDbConnectionService
     {
         IDbConnection Create();
+        IDbConnection Delete();
     }
 }

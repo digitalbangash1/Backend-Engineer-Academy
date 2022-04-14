@@ -120,5 +120,24 @@ namespace Backendv2.Services
                 Description = reader["CourseDescription"].ToString(),
             };
         }
+
+
+        public void DeleteCourse( string name)
+        {
+            using (var conn = dbConnectionService.Delete())
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "DELETE FROM courses WHERE courseName=@name";
+
+                var idParam = cmd.CreateParameter();
+                idParam.ParameterName = "@name";
+                idParam.Value = name;
+                cmd.Parameters.Add(idParam);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
     }
 }
