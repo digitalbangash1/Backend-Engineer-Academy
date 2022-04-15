@@ -12,7 +12,7 @@ namespace Backendv2.Services
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("Select * from article inner join courses on courses.coursesID = article.coursesID", conn);
+                MySqlCommand cmd = new MySqlCommand("Select * from article inner join courses on courses.courseId = article.courseId", conn);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -20,7 +20,7 @@ namespace Backendv2.Services
                         articles.Add(new ArticleModel()
                             {
                             Id = Convert.ToInt32(reader["article_id"]),
-                            courseId = Convert.ToInt32(reader["coursesID"]),
+                            courseId = Convert.ToInt32(reader["courseId"]),
                             Description = reader["articleDes"].ToString(),
 
 

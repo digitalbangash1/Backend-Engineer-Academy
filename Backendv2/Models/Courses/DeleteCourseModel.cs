@@ -6,7 +6,7 @@ namespace Backendv2.Models.Courses
     {
 
         [Required(ErrorMessage = "Required")]
-        public string Name { get; set; }
+        public int Id { get; set; }
 
     }
 }

@@ -39,7 +39,7 @@ namespace Backendv2.Controllers
         [HttpDelete]
         public IActionResult DeleteCourse(DeleteCourseModel model)
         {
-            coursesService.DeleteCourse(model.Name);
+            coursesService.DeleteCourse(model.Id);
             return Ok();
         }
 

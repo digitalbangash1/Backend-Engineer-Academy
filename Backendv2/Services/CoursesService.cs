@@ -42,7 +42,7 @@ namespace Backendv2.Services
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE courses SET courseName=@name, courseDescription=@description WHERE coursesID=@id";
+                cmd.CommandText = "UPDATE courses SET courseName=@name, courseDescription=@description WHERE courseId=@id";
 
                 var idParam = cmd.CreateParameter();
                 idParam.ParameterName = "@id";
@@ -70,7 +70,7 @@ namespace Backendv2.Services
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "select * from courses where coursesID=@courseId";
+                cmd.CommandText = "select * from courses where courseId=@courseId";
 
                 var idParam = cmd.CreateParameter();
                 idParam.ParameterName = "@courseId";
@@ -115,25 +115,25 @@ namespace Backendv2.Services
         {
             return new CourseModel()
             {
-                Id = Convert.ToInt32(reader["coursesID"]),
+                Id = Convert.ToInt32(reader["courseId"]),
                 Name = reader["CourseName"].ToString(),
                 Description = reader["CourseDescription"].ToString(),
             };
         }
 
 
-        public void DeleteCourse( string name)
+        public void DeleteCourse( int Id)
         {
             using (var conn = dbConnectionService.Delete())
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "DELETE FROM courses WHERE courseName=@name";
+                cmd.CommandText = "DELETE FROM courses WHERE courseId=@Id";
 
                 var idParam = cmd.CreateParameter();
-                idParam.ParameterName = "@name";
-                idParam.Value = name;
+                idParam.ParameterName = "@Id";
+                idParam.Value = Id;
                 cmd.Parameters.Add(idParam);
                 cmd.ExecuteNonQuery();
             }
