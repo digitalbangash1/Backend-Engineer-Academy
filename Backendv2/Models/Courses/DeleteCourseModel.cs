@@ -5,7 +5,7 @@ namespace Backendv2.Models.Courses
     public class DeleteCourseModel
     {
 
-        [Required(ErrorMessage = "Required")]
+        [Required]
         public int Id { get; set; }
 
     }
