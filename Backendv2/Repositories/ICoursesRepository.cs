@@ -1,12 +1,12 @@
 ﻿using Backendv2.Models.Courses;
 
-namespace Backendv2.Services
+namespace Backendv2.Repositories
 {
-    public interface ICoursesService
+    public interface ICoursesRepository
     {
         void CreateCourse(string name, string description);
         void UpdateCourse(int id, string name, string description);
         IList<CourseModel> GetCourses();
-        CourseModel GetById(int id);
+        CourseDetailsModel GetById(int id);
     }
 }

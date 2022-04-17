@@ -2,14 +2,14 @@
 using MySql.Data.MySqlClient;
 using System.Data;
 
-namespace Backendv2.Services
+namespace Backendv2.Repositories
 {
-    public class ArticlesServices : IArticleSerivce
+    public class ArticlesRepository : IArticlesRepository
 
     {
-        private readonly IDbConnectionService dbConnectionService;
+        private readonly IDbConnectionRepository dbConnectionService;
 
-        public ArticlesServices(IDbConnectionService dbConnectionService)
+        public ArticlesRepository(IDbConnectionRepository dbConnectionService)
         {
             this.dbConnectionService = dbConnectionService;
         }
@@ -41,7 +41,6 @@ namespace Backendv2.Services
             return new ArticleModel()
             {
                 Id = Convert.ToInt32(reader["ID"]),
-                courseId = Convert.ToInt32(reader["coursesID"]),
                 Title = reader["articleTitle"].ToString(),
                 Description = reader["articleDes"].ToString(),
                 Link = reader["articlelink"].ToString(),
