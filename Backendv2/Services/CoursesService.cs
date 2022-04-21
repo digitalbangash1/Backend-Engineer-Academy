@@ -70,10 +70,10 @@ namespace Backendv2.Services
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "select * from courses where courseId=@courseId";
+                cmd.CommandText = "select * from courses where coursesID=@coursesID";
 
                 var idParam = cmd.CreateParameter();
-                idParam.ParameterName = "@courseId";
+                idParam.ParameterName = "@coursesID";
                 idParam.Value = id;
                 cmd.Parameters.Add(idParam);
 
@@ -115,7 +115,7 @@ namespace Backendv2.Services
         {
             return new CourseModel()
             {
-                Id = Convert.ToInt32(reader["courseId"]),
+                Id = Convert.ToInt32(reader["coursesID"]),
                 Name = reader["CourseName"].ToString(),
                 Description = reader["CourseDescription"].ToString(),
             };
@@ -129,7 +129,7 @@ namespace Backendv2.Services
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "DELETE FROM courses WHERE courseId=@Id";
+                cmd.CommandText = "DELETE FROM courses WHERE coursesID=@Id";
 
                 var idParam = cmd.CreateParameter();
                 idParam.ParameterName = "@Id";
