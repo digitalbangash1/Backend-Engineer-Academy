@@ -42,7 +42,7 @@ namespace Backendv2.Services
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "UPDATE courses SET courseName=@name, courseDescription=@description WHERE coursesID=@id";
+                cmd.CommandText = "UPDATE courses SET courseName=@name, courseDescription=@description WHERE courseId=@id";
 
                 var idParam = cmd.CreateParameter();
                 idParam.ParameterName = "@id";
@@ -70,10 +70,10 @@ namespace Backendv2.Services
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "select * from courses where coursesID=@courseId";
+                cmd.CommandText = "select * from courses where coursesID=@coursesID";
 
                 var idParam = cmd.CreateParameter();
-                idParam.ParameterName = "@courseId";
+                idParam.ParameterName = "@coursesID";
                 idParam.Value = id;
                 cmd.Parameters.Add(idParam);
 
@@ -120,5 +120,24 @@ namespace Backendv2.Services
                 Description = reader["CourseDescription"].ToString(),
             };
         }
+
+
+        public void DeleteCourse( int Id)
+        {
+            using (var conn = dbConnectionService.Delete())
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "DELETE FROM courses WHERE coursesID=@Id";
+
+                var idParam = cmd.CreateParameter();
+                idParam.ParameterName = "@Id";
+                idParam.Value = Id;
+                cmd.Parameters.Add(idParam);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
     }
 }
