@@ -14,7 +14,6 @@ builder.Services.AddCors();
 builder.Services.AddScoped<ICoursesService, CoursesService>();
 builder.Services.AddScoped<IArticleSerivce,ArticlesServices>();
 builder.Services.AddScoped<IDbConnectionService, DbConnectionService>();
-builder.Services.AddScoped<IThe_coursesSerivce, The_coursesSerivce>();
 
 var app = builder.Build();
 
