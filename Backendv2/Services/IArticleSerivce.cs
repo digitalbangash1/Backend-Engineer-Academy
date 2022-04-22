@@ -1,8 +1,8 @@
 ﻿using Backendv2.Models.Articles;
 
-namespace Backendv2.Repositories
+namespace Backendv2.Services
 {
-    public interface IArticlesRepository
+    public interface IArticleSerivce
     {
         IList<ArticleModel> GetArticles();
     }

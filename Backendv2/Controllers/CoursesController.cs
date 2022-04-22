@@ -1,5 +1,5 @@
 ﻿using Backendv2.Models.Courses;
-using Backendv2.Repositories;
+using Backendv2.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backendv2.Controllers
@@ -8,41 +8,36 @@ namespace Backendv2.Controllers
     [Route("[controller]")]
     public class CoursesController : BaseController
     {
-        private readonly ICoursesRepository coursesRepository;
+        private readonly ICoursesService coursesService;
 
-        public CoursesController(ICoursesRepository coursesRepository)
+        public CoursesController(ICoursesService coursesService)
         {
-            this.coursesRepository = coursesRepository;
+            this.coursesService = coursesService;
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var model = coursesRepository.GetById(id);
-            if(model == null)
-            {
-                return NotFound();
-            }
-            return Ok(model);
+            return Ok(coursesService.GetById(id));
         }
 
         [HttpGet]
         public IActionResult GetCourses()
         {
-            return Ok(coursesRepository.GetCourses());
+            return Ok(coursesService.GetCourses());
         }
 
         [HttpPost]
         public IActionResult CreateCourse(CreateCourseModel model)
         {
-            coursesRepository.CreateCourse(model.Name, model.Description);
+            coursesService.CreateCourse(model.Name, model.Description);
             return Ok();
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateCourse(int id, UpdateCourseModel model)
         {
-            coursesRepository.UpdateCourse(id, model.Name, model.Description);
+            coursesService.UpdateCourse(id, model.Name, model.Description);
             return Ok();
         }
     }

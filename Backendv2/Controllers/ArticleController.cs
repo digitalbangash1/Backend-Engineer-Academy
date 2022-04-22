@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Backendv2.Services;
 using Backendv2.Models.Articles;
-using Backendv2.Repositories;
 
 namespace Backendv2.Controllers
 {
     [ApiController]
-    [Route("Articles")]
-    public class ArticlesController : BaseController
+    [Route("[controller]")]
+    public class ArticleController : BaseController
     {
 
-        private readonly IArticlesRepository articleService;
+        private readonly IArticleSerivce articleService;
 
-        public ArticlesController (IArticlesRepository articleService)
+        public ArticleController (IArticleSerivce articleService)
         {
             this.articleService = articleService;
         }

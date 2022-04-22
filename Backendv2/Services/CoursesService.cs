@@ -1,23 +1,20 @@
-﻿using Backendv2.Extensions;
-using Backendv2.Models.Articles;
-using Backendv2.Models.Courses;
-using Backendv2.Models.Videos;
+﻿using Backendv2.Models.Courses;
 using System.Data;
 
-namespace Backendv2.Repositories
+namespace Backendv2.Services
 {
-    public class CoursesRepository : ICoursesRepository
+    public class CoursesService : ICoursesService
     {
-        private readonly IDbConnectionRepository dbConnectionService;
+        private readonly IDbConnectionService dbConnectionService;
 
-        public CoursesRepository(IDbConnectionRepository dbConnectionService)
+        public CoursesService(IDbConnectionService dbConnectionService)
         {
             this.dbConnectionService = dbConnectionService;
         }
 
         public void CreateCourse(string name, string description)
         {
-            using (var conn = dbConnectionService.Create())
+            using(var conn = dbConnectionService.Create())
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
@@ -66,25 +63,14 @@ namespace Backendv2.Repositories
             }
         }
 
-        public CourseDetailsModel GetById(int id)
+        public CourseModel GetById(int id)
         {
-            CourseDetailsModel model = null;
             using (var conn = dbConnectionService.Create())
             {
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = @"
-                    SELECT a.*, 
-                    b.id as videoId, b.videoTitle, b.videoDes, b.videoId as youtubeVideoId, 
-                    c.id as articleId, c.articleTitle, c.articleDes, c.articleLink
-                    FROM courses a
-                    LEFT OUTER JOIN video b
-                    ON a.coursesID = b.coursesID
-                    LEFT OUTER JOIN article c 
-                    ON a.coursesID = c.coursesID
-                    where a.coursesID = @courseId
-                ";
+                cmd.CommandText = "select * from courses where coursesID=@courseId";
 
                 var idParam = cmd.CreateParameter();
                 idParam.ParameterName = "@courseId";
@@ -93,34 +79,14 @@ namespace Backendv2.Repositories
 
                 using (var reader = cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    if (reader.Read())
                     {
-                        if (model == null)
-                        {
-                            model = new CourseDetailsModel
-                            {
-                                Id = id,
-                                Name = reader.GetStringValue("CourseName"),
-                                Description = reader.GetStringValue("CourseDescription")
-                            };
-                        }
-
-                        var hasVideo = !reader.IsNull("videoId");
-                        if (hasVideo)
-                        {
-                            model.Videos.Add(GetVideo(reader));
-                        }
-
-                        var hasArticle = !reader.IsNull("articleId");
-                        if (hasArticle)
-                        {
-                            model.Articles.Add(GetArticle(reader));
-                        }
+                        return GetCourse(reader);
                     }
                 }
             }
 
-            return model;
+            return null;
         }
 
         public IList<CourseModel> GetCourses()
@@ -139,7 +105,7 @@ namespace Backendv2.Repositories
                     {
                         courses.Add(GetCourse(reader));
                     }
-                }
+                }  
             }
 
             return courses;
@@ -152,28 +118,6 @@ namespace Backendv2.Repositories
                 Id = Convert.ToInt32(reader["coursesID"]),
                 Name = reader["CourseName"].ToString(),
                 Description = reader["CourseDescription"].ToString(),
-            };
-        }
-
-        private VideoModel GetVideo(IDataReader reader)
-        {
-            return new VideoModel
-            {
-                Id = reader.GetIntValue("videoId"),
-                Title = reader.GetStringValue("videoTitle"),
-                Description = reader.GetStringValue("videoDes"),
-                VideoId = reader.GetStringValue("youtubeVideoId")
-            };
-        }
-
-        private ArticleModel GetArticle(IDataReader reader)
-        {
-            return new ArticleModel
-            {
-                Id = reader.GetIntValue("articleId"),
-                Title = reader.GetStringValue("articleTitle"),
-                Description = reader.GetStringValue("articleDes"),
-                Link = reader.GetStringValue("articleLink")
             };
         }
     }

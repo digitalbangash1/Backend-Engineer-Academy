@@ -1,4 +1,4 @@
-using Backendv2.Repositories;
+using Backendv2.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +11,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
 //Register my own services
-builder.Services.AddScoped<ICoursesRepository, CoursesRepository>();
-builder.Services.AddScoped<IArticlesRepository,ArticlesRepository>();
-builder.Services.AddScoped<IVideosRepository, VideosRepository>();
-builder.Services.AddScoped<IDbConnectionRepository, DbConnectionRepository>();
+builder.Services.AddScoped<ICoursesService, CoursesService>();
+builder.Services.AddScoped<IArticleSerivce,ArticlesServices>();
+builder.Services.AddScoped<IVideoService, VideoServices>();
+builder.Services.AddScoped<IDbConnectionService, DbConnectionService>();
 
 var app = builder.Build();
 
