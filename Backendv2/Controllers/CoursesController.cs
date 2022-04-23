@@ -8,17 +8,17 @@ namespace Backendv2.Controllers
     [Route("[controller]")]
     public class CoursesController : BaseController
     {
-        private readonly ICoursesRepository coursesRepository;
+        private readonly ICoursesRepository CoursesRepository;
 
         public CoursesController(ICoursesRepository coursesRepository)
         {
-            this.coursesRepository = coursesRepository;
+            this.CoursesRepository = coursesRepository;
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var model = coursesRepository.GetById(id);
+            var model = CoursesRepository.GetById(id);
             if(model == null)
             {
                 return NotFound();
@@ -29,13 +29,13 @@ namespace Backendv2.Controllers
         [HttpGet]
         public IActionResult GetCourses()
         {
-            return Ok(coursesRepository.GetCourses());
+            return Ok(CoursesRepository.GetCourses());
         }
 
         [HttpPost]
         public IActionResult CreateCourse(CreateCourseModel model)
         {
-            coursesRepository.CreateCourse(model.Name, model.Description);
+            CoursesRepository.CreateCourse(model.Name, model.Description);
             return Ok();
         }
 
@@ -44,7 +44,7 @@ namespace Backendv2.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteCourse(int id)
         {
-            coursesService.DeleteCourse(id);
+            CoursesRepository.DeleteCourse(id);
             return Ok();
         }
 
@@ -53,7 +53,7 @@ namespace Backendv2.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateCourse(int id, UpdateCourseModel model)
         {
-            coursesRepository.UpdateCourse(id, model.Name, model.Description);
+            CoursesRepository.UpdateCourse(id, model.Name, model.Description);
             return Ok();
         }
     }

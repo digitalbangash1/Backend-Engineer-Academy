@@ -1,4 +1,4 @@
-﻿using Backendv2.Models.Articles;
+﻿/*using Backendv2.Models.Articles;
 using MySql.Data.MySqlClient;
 
 namespace Backendv2.Services
@@ -33,3 +33,4 @@ namespace Backendv2.Services
         }
     }
 }
+*/

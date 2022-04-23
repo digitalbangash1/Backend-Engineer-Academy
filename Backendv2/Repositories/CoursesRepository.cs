@@ -76,7 +76,7 @@ namespace Backendv2.Repositories
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = @"
                     SELECT a.*, 
-                    b.id as videoId, b.videoTitle, b.videoDes, b.videoId as youtubeVideoId, 
+                    b.id as videoId, b.videoTitle, b.videoDes, b.videoLink as youtubeVideoId, 
                     c.id as articleId, c.articleTitle, c.articleDes, c.articleLink
                     FROM courses a
                     LEFT OUTER JOIN video b
@@ -153,6 +153,23 @@ namespace Backendv2.Repositories
                 Name = reader["CourseName"].ToString(),
                 Description = reader["CourseDescription"].ToString(),
             };
+        }
+
+        public void DeleteCourse(int Id)
+        {
+            using (var conn = dbConnectionService.Delete())
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "DELETE FROM courses WHERE coursesID=@Id";
+
+                var idParam = cmd.CreateParameter();
+                idParam.ParameterName = "@Id";
+                idParam.Value = Id;
+                cmd.Parameters.Add(idParam);
+                cmd.ExecuteNonQuery();
+            }
         }
 
         private VideoModel GetVideo(IDataReader reader)

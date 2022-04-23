@@ -1,9 +1,10 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Backendv2.Repositories;
+using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace Backendv2.Services
 {
-    public class DbConnectionService : IDbConnectionService
+    public class DbConnectionService : IDbConnectionRepository
     {
         //TODO this should not be in code but in appsettings.json
         private static string connectionString = "server=localhost;port=3306;database=backend;user=root;password=salim123";
