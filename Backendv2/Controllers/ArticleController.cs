@@ -5,8 +5,8 @@ using Backendv2.Models.Articles;
 namespace Backendv2.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class ArticleController : BaseController
+    [Route("Articles/{courseId}")]
+    public class ArticlesController : BaseController
     {
 
         private readonly IArticleSerivce articleService;
@@ -17,9 +17,9 @@ namespace Backendv2.Controllers
         }
         [HttpGet]
 
-        public IList<ArticleModel> GetArticles()
+        public IList<ArticleModel> GetArticles(int courseId)
         {
-            return articleService.GetArticles();
+            return articleService.GetArticles(courseId);
         }
 
 

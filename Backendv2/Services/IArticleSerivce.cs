@@ -4,6 +4,6 @@ namespace Backendv2.Services
 {
     public interface IArticleSerivce
     {
-        IList<ArticleModel> GetArticles();
+        IList<ArticleModel> GetArticles(int courseId);
     }
 }

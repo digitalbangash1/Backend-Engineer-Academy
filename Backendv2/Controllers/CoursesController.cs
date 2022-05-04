@@ -1,4 +1,5 @@
 ﻿using Backendv2.Models.Courses;
+using Backendv2.Repositories;
 using Backendv2.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,12 @@ namespace Backendv2.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(coursesService.GetById(id));
+            var model = coursesRepository.GetById(id);
+            if(model == null)
+            {
+                return NotFound();
+            }
+            return Ok(model);
         }
 
         [HttpGet]
