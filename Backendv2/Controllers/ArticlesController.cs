@@ -5,7 +5,7 @@ using Backendv2.Repositories;
 namespace Backendv2.Controllers
 {
     [ApiController]
-    [Route("Articles")]
+    [Route("Articles/{courseId}")]
     public class ArticlesController : BaseController
     {
 
@@ -17,9 +17,9 @@ namespace Backendv2.Controllers
         }
         [HttpGet]
 
-        public IList<ArticleModel> GetArticles()
+        public IList<ArticleModel> GetArticles(int courseId)
         {
-            return articleService.GetArticles();
+            return articleService.GetArticles(courseId);
         }
 
 

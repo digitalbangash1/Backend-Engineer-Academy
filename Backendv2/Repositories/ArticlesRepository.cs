@@ -14,7 +14,7 @@ namespace Backendv2.Repositories
             this.dbConnectionService = dbConnectionService;
         }
 
-        public IList<ArticleModel> GetArticles()
+        public IList<ArticleModel> GetArticles(int courseId)
         {
             var article = new List<ArticleModel>();
             using (var conn = dbConnectionService.Create())
@@ -22,7 +22,12 @@ namespace Backendv2.Repositories
                 conn.Open();
                 var cmd = conn.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "select * from article";
+                cmd.CommandText = "select * from article where coursesId=@courseId";
+
+                var courseIdParam = cmd.CreateParameter();
+                courseIdParam.ParameterName = "@courseId";
+                courseIdParam.Value = courseId;
+                cmd.Parameters.Add(courseIdParam);
 
                 using (var reader = cmd.ExecuteReader())
                 {

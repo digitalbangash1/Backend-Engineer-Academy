@@ -4,6 +4,6 @@ namespace Backendv2.Repositories
 {
     public interface IArticlesRepository
     {
-        IList<ArticleModel> GetArticles();
+        IList<ArticleModel> GetArticles(int courseId);
     }
 }

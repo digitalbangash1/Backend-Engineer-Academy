@@ -1,4 +1,5 @@
 using Backendv2.Repositories;
+using Backendv2.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddScoped<ICoursesRepository, CoursesRepository>();
 builder.Services.AddScoped<IArticlesRepository,ArticlesRepository>();
 builder.Services.AddScoped<IVideosRepository, VideosRepository>();
 builder.Services.AddScoped<IDbConnectionRepository, DbConnectionRepository>();
+builder.Services.AddScoped<ICoursesService, CoursesService>();
 
 var app = builder.Build();
 
