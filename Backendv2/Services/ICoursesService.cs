@@ -8,5 +8,7 @@ namespace Backendv2.Services
         void UpdateCourse(int id, string name, string description);
         IList<CourseModel> GetCourses();
         CourseDetailsModel GetById(int id);
+
+        void DeleteCourse(int Id);
     }
 }

@@ -1,19 +1,27 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Backendv2.Options;
+using Microsoft.Extensions.Options;
+using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace Backendv2.Repositories
 {
     public class DbConnectionRepository : IDbConnectionRepository
     {
-        //TODO this should not be in code but in appsettings.json
-        private static string connectionString = "server=localhost;port=3306;database=backend;user=root;password=12345";
-        //
-        //"server=130.225.170.79;uid=bangash;pwd=123;database=backend";
-        //"server=130.225.170.79;database=backend;user=bangash;password=123";
+        private readonly DatabaseOptions databaseOptions;
+
+        public DbConnectionRepository(IOptions<DatabaseOptions> databaseOptions)
+        {
+            this.databaseOptions = databaseOptions.Value;
+        }
 
         public IDbConnection Create()
         {
-            return new MySqlConnection(connectionString);
+            return new MySqlConnection(databaseOptions.ConnectionString);
+
+        }
+        public IDbConnection Delete()
+        {
+            return new MySqlConnection(databaseOptions.ConnectionString);
 
         }
     }

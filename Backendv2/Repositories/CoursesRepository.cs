@@ -66,6 +66,23 @@ namespace Backendv2.Repositories
             }
         }
 
+        public void DeleteCourse(int Id)
+        {
+            using (var conn = dbConnectionService.Delete())
+            {
+                conn.Open();
+                var cmd = conn.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "DELETE FROM courses WHERE coursesID=@Id";
+
+                var idParam = cmd.CreateParameter();
+                idParam.ParameterName = "@Id";
+                idParam.Value = Id;
+                cmd.Parameters.Add(idParam);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public CourseDetailsModel GetById(int id)
         {
             CourseDetailsModel model = null;

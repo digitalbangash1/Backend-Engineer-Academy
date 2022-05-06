@@ -1,3 +1,4 @@
+using Backendv2.Options;
 using Backendv2.Repositories;
 using Backendv2.Services;
 
@@ -10,6 +11,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+
+builder.Services.Configure<DatabaseOptions>(
+    builder.Configuration.GetSection(DatabaseOptions.Name));
+
 
 //Register my own services
 builder.Services.AddScoped<ICoursesRepository, CoursesRepository>();

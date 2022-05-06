@@ -24,6 +24,8 @@ namespace Backendv2.Services
             coursesRepository.CreateCourse(name, description);
         }
 
+        public void DeleteCourse(int id) { coursesRepository.DeleteCourse(id); }
+
         public CourseDetailsModel GetById(int id)
         {
             var course = coursesRepository.GetById(id);
