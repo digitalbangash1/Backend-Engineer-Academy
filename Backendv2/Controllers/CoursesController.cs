@@ -33,6 +33,13 @@ namespace Backendv2.Controllers
             return Ok(coursesService.GetCourses());
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCourse(int id)
+        {
+            coursesService.DeleteCourse(id);
+            return Ok();
+        }
+
         [HttpPost]
         public IActionResult CreateCourse(CreateCourseModel model)
         {
