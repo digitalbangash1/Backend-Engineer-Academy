@@ -19,7 +19,7 @@ namespace Backendv2.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var model = coursesRepository.GetById(id);
+            var model = coursesService.GetById(id);
             if(model == null)
             {
                 return NotFound();
